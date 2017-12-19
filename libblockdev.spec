@@ -4,7 +4,7 @@
 #
 Name     : libblockdev
 Version  : 2.15.1
-Release  : 1
+Release  : 2
 URL      : https://github.com/storaged-project/libblockdev/archive/2.15-1.tar.gz
 Source0  : https://github.com/storaged-project/libblockdev/archive/2.15-1.tar.gz
 Summary  : A library with utility functions used by the libblockdev library
