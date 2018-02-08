@@ -398,6 +398,7 @@ libbd_utils.so.2:bd_utils_init_logging
 libbd_utils.so.2:bd_utils_init_prog_reporting
 libbd_utils.so.2:bd_utils_load_kernel_module
 libbd_utils.so.2:bd_utils_module_error_quark
+libbd_utils.so.2:bd_utils_prog_reporting_initialized
 libbd_utils.so.2:bd_utils_report_finished
 libbd_utils.so.2:bd_utils_report_progress
 libbd_utils.so.2:bd_utils_report_started
