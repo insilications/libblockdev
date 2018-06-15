@@ -28,7 +28,7 @@ BuildRequires : pkgconfig(libparted)
 BuildRequires : pkgconfig(libudev)
 BuildRequires : pkgconfig(mount)
 BuildRequires : pkgconfig(uuid)
-BuildRequires : python-dev
+
 BuildRequires : volume_key-dev
 
 %description
