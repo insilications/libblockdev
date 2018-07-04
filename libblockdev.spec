@@ -4,7 +4,7 @@
 #
 Name     : libblockdev
 Version  : 2.18
-Release  : 18
+Release  : 19
 URL      : https://github.com/storaged-project/libblockdev/releases/download/2.18-1/libblockdev-2.18.tar.gz
 Source0  : https://github.com/storaged-project/libblockdev/releases/download/2.18-1/libblockdev-2.18.tar.gz
 Summary  : A library for low-level manipulation with block devices
@@ -105,7 +105,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1530711953
+export SOURCE_DATE_EPOCH=1530712671
 %configure --disable-static --with-dm=no
 make  %{?_smp_mflags}
 
@@ -117,7 +117,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1530711953
+export SOURCE_DATE_EPOCH=1530712671
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/doc/libblockdev
 cp LICENSE %{buildroot}/usr/share/doc/libblockdev/LICENSE

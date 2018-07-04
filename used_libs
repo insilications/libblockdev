@@ -12,7 +12,7 @@ libgobject-2.0.so.0
 libkmod.so.2
 libm.so.6
 libmount.so.1
-libndctl.so.7
+libndctl.so.6
 libnspr4.so
 libnss3.so
 libnssutil3.so
