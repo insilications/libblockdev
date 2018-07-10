@@ -4,7 +4,7 @@
 #
 Name     : libblockdev
 Version  : 2.18
-Release  : 19
+Release  : 20
 URL      : https://github.com/storaged-project/libblockdev/releases/download/2.18-1/libblockdev-2.18.tar.gz
 Source0  : https://github.com/storaged-project/libblockdev/releases/download/2.18-1/libblockdev-2.18.tar.gz
 Summary  : A library for low-level manipulation with block devices
