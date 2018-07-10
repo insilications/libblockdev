@@ -3,3 +3,5 @@
 nss-dev
 volume_key-dev
 python-dev
+# for ldd
+glibc-bin
