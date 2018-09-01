@@ -44,6 +44,7 @@ libbd_crypto.so.2:bd_crypto_luks_change_key_blob
 libbd_crypto.so.2:bd_crypto_luks_close
 libbd_crypto.so.2:bd_crypto_luks_extra_copy
 libbd_crypto.so.2:bd_crypto_luks_extra_free
+libbd_crypto.so.2:bd_crypto_luks_extra_new
 libbd_crypto.so.2:bd_crypto_luks_format
 libbd_crypto.so.2:bd_crypto_luks_format_blob
 libbd_crypto.so.2:bd_crypto_luks_format_luks2
@@ -57,6 +58,9 @@ libbd_crypto.so.2:bd_crypto_luks_info_free
 libbd_crypto.so.2:bd_crypto_luks_kill_slot
 libbd_crypto.so.2:bd_crypto_luks_open
 libbd_crypto.so.2:bd_crypto_luks_open_blob
+libbd_crypto.so.2:bd_crypto_luks_pbkdf_copy
+libbd_crypto.so.2:bd_crypto_luks_pbkdf_free
+libbd_crypto.so.2:bd_crypto_luks_pbkdf_new
 libbd_crypto.so.2:bd_crypto_luks_remove_key
 libbd_crypto.so.2:bd_crypto_luks_remove_key_blob
 libbd_crypto.so.2:bd_crypto_luks_resize
@@ -172,7 +176,6 @@ libbd_kbd.so.2:bd_kbd_zram_get_stats
 libbd_kbd.so.2:bd_kbd_zram_remove_device
 libbd_kbd.so.2:bd_kbd_zram_stats_copy
 libbd_kbd.so.2:bd_kbd_zram_stats_free
-libbd_kbd.so.2:wait_for_file
 libbd_loop.so.2:bd_loop_check_deps
 libbd_loop.so.2:bd_loop_close
 libbd_loop.so.2:bd_loop_error_quark
@@ -420,6 +423,8 @@ libbd_utils.so.2:bd_extra_arg_free
 libbd_utils.so.2:bd_extra_arg_get_type
 libbd_utils.so.2:bd_extra_arg_new
 libbd_utils.so.2:bd_utils_check_util_version
+libbd_utils.so.2:bd_utils_dbus_error_quark
+libbd_utils.so.2:bd_utils_dbus_service_available
 libbd_utils.so.2:bd_utils_dev_utils_error_quark
 libbd_utils.so.2:bd_utils_echo_str_to_file
 libbd_utils.so.2:bd_utils_exec_and_capture_output
@@ -457,6 +462,8 @@ libbd_vdo.so.2:bd_vdo_disable_deduplication
 libbd_vdo.so.2:bd_vdo_enable_compression
 libbd_vdo.so.2:bd_vdo_enable_deduplication
 libbd_vdo.so.2:bd_vdo_error_quark
+libbd_vdo.so.2:bd_vdo_get_stats
+libbd_vdo.so.2:bd_vdo_get_stats_full
 libbd_vdo.so.2:bd_vdo_get_write_policy_from_str
 libbd_vdo.so.2:bd_vdo_get_write_policy_str
 libbd_vdo.so.2:bd_vdo_grow_logical
@@ -468,6 +475,8 @@ libbd_vdo.so.2:bd_vdo_init
 libbd_vdo.so.2:bd_vdo_is_tech_avail
 libbd_vdo.so.2:bd_vdo_remove
 libbd_vdo.so.2:bd_vdo_start
+libbd_vdo.so.2:bd_vdo_stats_copy
+libbd_vdo.so.2:bd_vdo_stats_free
 libbd_vdo.so.2:bd_vdo_stop
 libblockdev.so.2:bd_btrfs_add_device
 libblockdev.so.2:bd_btrfs_add_device_stub
@@ -542,6 +551,7 @@ libblockdev.so.2:bd_crypto_luks_close_stub
 libblockdev.so.2:bd_crypto_luks_extra_copy
 libblockdev.so.2:bd_crypto_luks_extra_free
 libblockdev.so.2:bd_crypto_luks_extra_get_type
+libblockdev.so.2:bd_crypto_luks_extra_new
 libblockdev.so.2:bd_crypto_luks_format
 libblockdev.so.2:bd_crypto_luks_format_blob
 libblockdev.so.2:bd_crypto_luks_format_blob_stub
@@ -567,6 +577,10 @@ libblockdev.so.2:bd_crypto_luks_open
 libblockdev.so.2:bd_crypto_luks_open_blob
 libblockdev.so.2:bd_crypto_luks_open_blob_stub
 libblockdev.so.2:bd_crypto_luks_open_stub
+libblockdev.so.2:bd_crypto_luks_pbkdf_copy
+libblockdev.so.2:bd_crypto_luks_pbkdf_free
+libblockdev.so.2:bd_crypto_luks_pbkdf_get_type
+libblockdev.so.2:bd_crypto_luks_pbkdf_new
 libblockdev.so.2:bd_crypto_luks_remove_key
 libblockdev.so.2:bd_crypto_luks_remove_key_blob
 libblockdev.so.2:bd_crypto_luks_remove_key_blob_stub
@@ -1108,6 +1122,10 @@ libblockdev.so.2:bd_vdo_enable_compression_stub
 libblockdev.so.2:bd_vdo_enable_deduplication
 libblockdev.so.2:bd_vdo_enable_deduplication_stub
 libblockdev.so.2:bd_vdo_error_quark
+libblockdev.so.2:bd_vdo_get_stats
+libblockdev.so.2:bd_vdo_get_stats_full
+libblockdev.so.2:bd_vdo_get_stats_full_stub
+libblockdev.so.2:bd_vdo_get_stats_stub
 libblockdev.so.2:bd_vdo_get_write_policy_from_str
 libblockdev.so.2:bd_vdo_get_write_policy_from_str_stub
 libblockdev.so.2:bd_vdo_get_write_policy_str
@@ -1127,6 +1145,9 @@ libblockdev.so.2:bd_vdo_remove
 libblockdev.so.2:bd_vdo_remove_stub
 libblockdev.so.2:bd_vdo_start
 libblockdev.so.2:bd_vdo_start_stub
+libblockdev.so.2:bd_vdo_stats_copy
+libblockdev.so.2:bd_vdo_stats_free
+libblockdev.so.2:bd_vdo_stats_get_type
 libblockdev.so.2:bd_vdo_stop
 libblockdev.so.2:bd_vdo_stop_stub
 libblockdev.so.2:get_btrfs_functions
