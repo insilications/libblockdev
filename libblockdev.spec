@@ -4,17 +4,17 @@
 #
 Name     : libblockdev
 Version  : 2.19.1
-Release  : 23
+Release  : 24
 URL      : https://github.com/storaged-project/libblockdev/releases/download/2.19-1/libblockdev-2.19.tar.gz
 Source0  : https://github.com/storaged-project/libblockdev/releases/download/2.19-1/libblockdev-2.19.tar.gz
 Summary  : A library for low-level manipulation with block devices
 Group    : Development/Tools
 License  : LGPL-2.1 LGPL-2.1+
-Requires: libblockdev-python3
-Requires: libblockdev-data
-Requires: libblockdev-lib
-Requires: libblockdev-license
-Requires: libblockdev-python
+Requires: libblockdev-data = %{version}-%{release}
+Requires: libblockdev-lib = %{version}-%{release}
+Requires: libblockdev-license = %{version}-%{release}
+Requires: libblockdev-python = %{version}-%{release}
+Requires: libblockdev-python3 = %{version}-%{release}
 BuildRequires : glibc-bin
 BuildRequires : gobject-introspection-dev
 BuildRequires : nss-dev
@@ -55,9 +55,9 @@ data components for the libblockdev package.
 %package dev
 Summary: dev components for the libblockdev package.
 Group: Development
-Requires: libblockdev-lib
-Requires: libblockdev-data
-Provides: libblockdev-devel
+Requires: libblockdev-lib = %{version}-%{release}
+Requires: libblockdev-data = %{version}-%{release}
+Provides: libblockdev-devel = %{version}-%{release}
 
 %description dev
 dev components for the libblockdev package.
@@ -75,8 +75,8 @@ legacypython components for the libblockdev package.
 %package lib
 Summary: lib components for the libblockdev package.
 Group: Libraries
-Requires: libblockdev-data
-Requires: libblockdev-license
+Requires: libblockdev-data = %{version}-%{release}
+Requires: libblockdev-license = %{version}-%{release}
 
 %description lib
 lib components for the libblockdev package.
@@ -93,7 +93,7 @@ license components for the libblockdev package.
 %package python
 Summary: python components for the libblockdev package.
 Group: Default
-Requires: libblockdev-python3
+Requires: libblockdev-python3 = %{version}-%{release}
 
 %description python
 python components for the libblockdev package.
@@ -116,7 +116,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1535826922
+export SOURCE_DATE_EPOCH=1542706306
 %configure --disable-static --with-dm=no
 make  %{?_smp_mflags}
 
@@ -128,10 +128,10 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1535826922
+export SOURCE_DATE_EPOCH=1542706306
 rm -rf %{buildroot}
-mkdir -p %{buildroot}/usr/share/doc/libblockdev
-cp LICENSE %{buildroot}/usr/share/doc/libblockdev/LICENSE
+mkdir -p %{buildroot}/usr/share/package-licenses/libblockdev
+cp LICENSE %{buildroot}/usr/share/package-licenses/libblockdev/LICENSE
 %make_install
 
 %files
@@ -230,8 +230,8 @@ cp LICENSE %{buildroot}/usr/share/doc/libblockdev/LICENSE
 /usr/lib64/libblockdev.so.2.0.0
 
 %files license
-%defattr(-,root,root,-)
-/usr/share/doc/libblockdev/LICENSE
+%defattr(0644,root,root,0755)
+/usr/share/package-licenses/libblockdev/LICENSE
 
 %files python
 %defattr(-,root,root,-)
