@@ -2,6 +2,5 @@
 # picked up automatically. One name per line, no whitespace.
 nss-dev
 volume_key-dev
-python-dev
 # for ldd
 glibc-bin

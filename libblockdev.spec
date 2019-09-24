@@ -4,7 +4,7 @@
 #
 Name     : libblockdev
 Version  : 2.21.1
-Release  : 31
+Release  : 33
 URL      : https://github.com/storaged-project/libblockdev/releases/download/2.21-1/libblockdev-2.21.tar.gz
 Source0  : https://github.com/storaged-project/libblockdev/releases/download/2.21-1/libblockdev-2.21.tar.gz
 Summary  : A library for low-level manipulation with block devices
@@ -33,7 +33,6 @@ BuildRequires : pkgconfig(libudev)
 BuildRequires : pkgconfig(mount)
 BuildRequires : pkgconfig(uuid)
 BuildRequires : pkgconfig(yaml-0.1)
-BuildRequires : python-dev
 BuildRequires : volume_key-dev
 
 %description
@@ -74,15 +73,6 @@ Requires: libblockdev = %{version}-%{release}
 
 %description dev
 dev components for the libblockdev package.
-
-
-%package legacypython
-Summary: legacypython components for the libblockdev package.
-Group: Default
-Requires: python-core
-
-%description legacypython
-legacypython components for the libblockdev package.
 
 
 %package lib
@@ -128,21 +118,25 @@ python3 components for the libblockdev package.
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
-export LANG=C
-export SOURCE_DATE_EPOCH=1555365675
-export LDFLAGS="${LDFLAGS} -fno-lto"
+export LANG=C.UTF-8
+export SOURCE_DATE_EPOCH=1569360805
+export GCC_IGNORE_WERROR=1
+export CFLAGS="$CFLAGS -fno-lto "
+export FCFLAGS="$CFLAGS -fno-lto "
+export FFLAGS="$CFLAGS -fno-lto "
+export CXXFLAGS="$CXXFLAGS -fno-lto "
 %configure --disable-static --with-dm=no
 make  %{?_smp_mflags}
 
 %check
-export LANG=C
+export LANG=C.UTF-8
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1555365675
+export SOURCE_DATE_EPOCH=1569360805
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/libblockdev
 cp LICENSE %{buildroot}/usr/share/package-licenses/libblockdev/LICENSE
@@ -207,10 +201,6 @@ cp LICENSE %{buildroot}/usr/share/package-licenses/libblockdev/LICENSE
 /usr/lib64/libblockdev.so
 /usr/lib64/pkgconfig/blockdev-utils.pc
 /usr/lib64/pkgconfig/blockdev.pc
-
-%files legacypython
-%defattr(-,root,root,-)
-/usr/lib/python2*/*
 
 %files lib
 %defattr(-,root,root,-)
