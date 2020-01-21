@@ -1,4 +1,3 @@
-2.21.1
+2.23.1
 gobject-introspection-dev
 pkgconfig(libndctl)
-python-core
