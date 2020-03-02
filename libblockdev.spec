@@ -4,10 +4,10 @@
 #
 Name     : libblockdev
 Version  : 2.23.1
-Release  : 36
+Release  : 37
 URL      : https://github.com/storaged-project/libblockdev/releases/download/2.23-1/libblockdev-2.23.tar.gz
 Source0  : https://github.com/storaged-project/libblockdev/releases/download/2.23-1/libblockdev-2.23.tar.gz
-Summary  : A library for low-level manipulation with block devices
+Summary  : A library for manipulating block devices
 Group    : Development/Tools
 License  : LGPL-2.1 LGPL-2.1+
 Requires: libblockdev-bin = %{version}-%{release}
@@ -70,6 +70,7 @@ Requires: libblockdev-bin = %{version}-%{release}
 Requires: libblockdev-data = %{version}-%{release}
 Provides: libblockdev-devel = %{version}-%{release}
 Requires: libblockdev = %{version}-%{release}
+Requires: libblockdev = %{version}-%{release}
 
 %description dev
 dev components for the libblockdev package.
@@ -120,7 +121,8 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1579637137
+export SOURCE_DATE_EPOCH=1583166806
+# -Werror is for werrorists
 export GCC_IGNORE_WERROR=1
 export CFLAGS="$CFLAGS -fno-lto "
 export FCFLAGS="$CFLAGS -fno-lto "
@@ -137,7 +139,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1579637137
+export SOURCE_DATE_EPOCH=1583166806
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/libblockdev
 cp %{_builddir}/libblockdev-2.23/LICENSE %{buildroot}/usr/share/package-licenses/libblockdev/507ba5f4949dedff9e01b4d5b64b365fdc7d4d04
