@@ -4,7 +4,7 @@
 #
 Name     : libblockdev
 Version  : 2.25.1
-Release  : 43
+Release  : 44
 URL      : https://github.com/storaged-project/libblockdev/releases/download/2.25-1/libblockdev-2.25.tar.gz
 Source0  : https://github.com/storaged-project/libblockdev/releases/download/2.25-1/libblockdev-2.25.tar.gz
 Summary  : A library for low-level manipulation with block devices
@@ -120,13 +120,13 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1610481571
+export SOURCE_DATE_EPOCH=1612230998
 export GCC_IGNORE_WERROR=1
 export CFLAGS="$CFLAGS -fno-lto "
 export FCFLAGS="$FFLAGS -fno-lto "
 export FFLAGS="$FFLAGS -fno-lto "
 export CXXFLAGS="$CXXFLAGS -fno-lto "
-%configure --disable-static --with-dm=no
+%configure --disable-static --with-dmraid=no
 make  %{?_smp_mflags}
 
 %check
@@ -137,7 +137,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1610481571
+export SOURCE_DATE_EPOCH=1612230998
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/libblockdev
 cp %{_builddir}/libblockdev-2.25/LICENSE %{buildroot}/usr/share/package-licenses/libblockdev/507ba5f4949dedff9e01b4d5b64b365fdc7d4d04
@@ -162,6 +162,7 @@ cp %{_builddir}/libblockdev-2.25/LICENSE %{buildroot}/usr/share/package-licenses
 /usr/include/blockdev/crypto.h
 /usr/include/blockdev/dbus.h
 /usr/include/blockdev/dev_utils.h
+/usr/include/blockdev/dm.h
 /usr/include/blockdev/exec.h
 /usr/include/blockdev/extra_arg.h
 /usr/include/blockdev/fs.h
@@ -186,6 +187,7 @@ cp %{_builddir}/libblockdev-2.25/LICENSE %{buildroot}/usr/share/package-licenses
 /usr/include/blockdev/vdo.h
 /usr/lib64/libbd_btrfs.so
 /usr/lib64/libbd_crypto.so
+/usr/lib64/libbd_dm.so
 /usr/lib64/libbd_fs.so
 /usr/lib64/libbd_kbd.so
 /usr/lib64/libbd_loop.so
@@ -209,6 +211,8 @@ cp %{_builddir}/libblockdev-2.25/LICENSE %{buildroot}/usr/share/package-licenses
 /usr/lib64/libbd_btrfs.so.2.0.0
 /usr/lib64/libbd_crypto.so.2
 /usr/lib64/libbd_crypto.so.2.0.0
+/usr/lib64/libbd_dm.so.2
+/usr/lib64/libbd_dm.so.2.0.0
 /usr/lib64/libbd_fs.so.2
 /usr/lib64/libbd_fs.so.2.0.0
 /usr/lib64/libbd_kbd.so.2
