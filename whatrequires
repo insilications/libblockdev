@@ -1,2 +1,6 @@
 # This file contains recursive sources that require this package
+gvfs-tests
+libblockdev-dev
 udisks2
+udisks2-dev
+udisks2-staticdev

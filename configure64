@@ -1,0 +1,5 @@
+--enable-shared
+--enable-static
+--with-python3=yes
+--with-dmraid=no
+--with-gtk-doc=no
