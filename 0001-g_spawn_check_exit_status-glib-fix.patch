@@ -1,0 +1,26 @@
+From bd22eda915f16a0d6adb238f6fe779cba62f4a83 Mon Sep 17 00:00:00 2001
+From: Francisco Boni <boboniboni@gmail.com>
+Date: Wed, 11 Aug 2021 13:49:23 -0300
+Subject: [PATCH] g_spawn_check_exit_status glib fix
+
+---
+ src/utils/exec.c | 2 --
+ 1 file changed, 2 deletions(-)
+
+diff --git a/src/utils/exec.c b/src/utils/exec.c
+index ac635fb..dfcb6b1 100644
+--- a/src/utils/exec.c
++++ b/src/utils/exec.c
+@@ -230,9 +230,7 @@ gboolean bd_utils_exec_and_report_status_error (const gchar **argv, const BDExtr
+        to get the process exit code manually (this is similar to calling
+        WEXITSTATUS but also sets the error for terminated processes */
+ 
+-    #if !GLIB_CHECK_VERSION(2, 69, 0)
+     #define g_spawn_check_wait_status(x,y) (g_spawn_check_exit_status (x,y))
+-    #endif
+ 
+     if (!g_spawn_check_wait_status (exit_status, &l_error)) {
+         if (g_error_matches (l_error, G_SPAWN_ERROR, G_SPAWN_ERROR_FAILED)) {
+-- 
+2.32.0
+
