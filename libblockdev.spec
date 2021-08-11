@@ -4,10 +4,10 @@
 #
 %define keepstatic 1
 Name     : libblockdev
-Version  : 2.26
-Release  : 301
-URL      : file:///aot/build/clearlinux/packages/libblockdev/libblockdev-v2.26.tar.gz
-Source0  : file:///aot/build/clearlinux/packages/libblockdev/libblockdev-v2.26.tar.gz
+Version  : 2.23
+Release  : 302
+URL      : file:///aot/build/clearlinux/packages/libblockdev/libblockdev-v2.23.tar.gz
+Source0  : file:///aot/build/clearlinux/packages/libblockdev/libblockdev-v2.23.tar.gz
 Summary  : A library with utility functions used by the libblockdev library
 Group    : Development/Tools
 License  : LGPL-2.1
@@ -29,6 +29,8 @@ BuildRequires : glib-dev
 BuildRequires : glibc-bin
 BuildRequires : gobject-introspection-dev
 BuildRequires : gtk-doc
+BuildRequires : keyutils
+BuildRequires : keyutils-dev
 BuildRequires : libtool-dev
 BuildRequires : m4
 BuildRequires : nss-dev
@@ -36,6 +38,7 @@ BuildRequires : pkg-config
 BuildRequires : pkgconfig(blkid)
 BuildRequires : pkgconfig(bytesize)
 BuildRequires : pkgconfig(devmapper)
+BuildRequires : pkgconfig(fdisk)
 BuildRequires : pkgconfig(gio-2.0)
 BuildRequires : pkgconfig(glib-2.0)
 BuildRequires : pkgconfig(gobject-2.0)
@@ -56,7 +59,7 @@ BuildRequires : volume_key-dev
 
 %description
 ### CI status
-<img alt="CI status" src="https://fedorapeople.org/groups/storage_apis/statuses/libblockdev-2.x.svg" width="100%" height="300ex" />
+<img alt="CI status" src="https://fedorapeople.org/groups/storage_apis/statuses/libblockdev-master.svg" width="100%" height="350ex" />
 
 %package bin
 Summary: bin components for the libblockdev package.
@@ -134,7 +137,7 @@ unset https_proxy
 unset no_proxy
 export SSL_CERT_FILE=/var/cache/ca-certs/anchors/ca-certificates.crt
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1628697996
+export SOURCE_DATE_EPOCH=1628699401
 export GCC_IGNORE_WERROR=1
 ## altflags1 content
 export CFLAGS="-g3 -ggdb -O3 --param=lto-max-streaming-parallelism=16 -march=native -mtune=native -fgraphite-identity -Wall -Wl,--as-needed -Wl,--build-id=sha1 -Wl,--enable-new-dtags -Wl,--hash-style=gnu -Wl,-O2 -Wl,-z,now,-z,relro,-z,max-page-size=0x1000,-z,separate-code -Wno-error -mprefer-vector-width=256 -falign-functions=32 -flimit-function-alignment -fasynchronous-unwind-tables -fdevirtualize-at-ltrans -floop-nest-optimize -floop-block -fno-math-errno -fno-semantic-interposition -fno-stack-protector -fno-trapping-math -ftree-loop-distribute-patterns -ftree-loop-vectorize -ftree-slp-vectorize -ftree-vectorize -fuse-ld=bfd -fuse-linker-plugin -malign-data=cacheline -feliminate-unused-debug-types -fipa-pta -flto=16 -mtls-dialect=gnu2 -Wl,-sort-common -Wno-error -Wp,-D_REENTRANT -pipe -ffat-lto-objects -fPIC -fomit-frame-pointer -fexceptions -static-libstdc++ -static-libgcc -Wl,--build-id=sha1"
@@ -218,7 +221,7 @@ make  %{?_smp_mflags}    V=1 VERBOSE=1
 
 
 %install
-export SOURCE_DATE_EPOCH=1628697996
+export SOURCE_DATE_EPOCH=1628699401
 rm -rf %{buildroot}
 %make_install
 
@@ -228,6 +231,7 @@ rm -rf %{buildroot}
 %files bin
 %defattr(-,root,root,-)
 /usr/bin/lvm-cache-stats
+/usr/bin/vfat-resize
 
 %files data
 %defattr(-,root,root,-)
@@ -245,13 +249,20 @@ rm -rf %{buildroot}
 /usr/include/blockdev/exec.h
 /usr/include/blockdev/extra_arg.h
 /usr/include/blockdev/fs.h
+/usr/include/blockdev/fs/btrfs.h
+/usr/include/blockdev/fs/exfat.h
 /usr/include/blockdev/fs/ext.h
+/usr/include/blockdev/fs/f2fs.h
 /usr/include/blockdev/fs/generic.h
 /usr/include/blockdev/fs/mount.h
+/usr/include/blockdev/fs/nilfs.h
 /usr/include/blockdev/fs/ntfs.h
+/usr/include/blockdev/fs/reiserfs.h
+/usr/include/blockdev/fs/udf.h
 /usr/include/blockdev/fs/vfat.h
 /usr/include/blockdev/fs/xfs.h
 /usr/include/blockdev/kbd.h
+/usr/include/blockdev/logging.h
 /usr/include/blockdev/loop.h
 /usr/include/blockdev/lvm.h
 /usr/include/blockdev/mdraid.h
@@ -263,7 +274,6 @@ rm -rf %{buildroot}
 /usr/include/blockdev/sizes.h
 /usr/include/blockdev/swap.h
 /usr/include/blockdev/utils.h
-/usr/include/blockdev/vdo.h
 /usr/lib64/libbd_btrfs.so
 /usr/lib64/libbd_crypto.so
 /usr/lib64/libbd_dm.so
@@ -276,10 +286,8 @@ rm -rf %{buildroot}
 /usr/lib64/libbd_mpath.so
 /usr/lib64/libbd_nvdimm.so
 /usr/lib64/libbd_part.so
-/usr/lib64/libbd_part_err.so
 /usr/lib64/libbd_swap.so
 /usr/lib64/libbd_utils.so
-/usr/lib64/libbd_vdo.so
 /usr/lib64/libblockdev.so
 /usr/lib64/pkgconfig/blockdev-utils.pc
 /usr/lib64/pkgconfig/blockdev.pc
@@ -310,14 +318,10 @@ rm -rf %{buildroot}
 /usr/lib64/libbd_nvdimm.so.2.0.0
 /usr/lib64/libbd_part.so.2
 /usr/lib64/libbd_part.so.2.0.0
-/usr/lib64/libbd_part_err.so.2
-/usr/lib64/libbd_part_err.so.2.0.0
 /usr/lib64/libbd_swap.so.2
 /usr/lib64/libbd_swap.so.2.0.0
 /usr/lib64/libbd_utils.so.2
 /usr/lib64/libbd_utils.so.2.1.0
-/usr/lib64/libbd_vdo.so.2
-/usr/lib64/libbd_vdo.so.2.0.0
 /usr/lib64/libblockdev.so.2
 /usr/lib64/libblockdev.so.2.0.0
 
@@ -342,8 +346,6 @@ rm -rf %{buildroot}
 /usr/lib64/libbd_mpath.a
 /usr/lib64/libbd_nvdimm.a
 /usr/lib64/libbd_part.a
-/usr/lib64/libbd_part_err.a
 /usr/lib64/libbd_swap.a
 /usr/lib64/libbd_utils.a
-/usr/lib64/libbd_vdo.a
 /usr/lib64/libblockdev.a

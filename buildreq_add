@@ -20,3 +20,5 @@ python3-dev
 volume_key-dev
 docbook-xml
 gtk-doc
+keyutils
+keyutils-dev
