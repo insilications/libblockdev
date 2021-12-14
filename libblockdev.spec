@@ -4,18 +4,20 @@
 #
 %define keepstatic 1
 Name     : libblockdev
-Version  : 2.23.1
-Release  : 307
-URL      : file:///aot/build/clearlinux/packages/libblockdev/libblockdev-v2.23.1.tar.gz
-Source0  : file:///aot/build/clearlinux/packages/libblockdev/libblockdev-v2.23.1.tar.gz
+Version  : 2.26
+Release  : 504
+URL      : file:///aot/build/clearlinux/packages/libblockdev/libblockdev-v2.26.tar.gz
+Source0  : file:///aot/build/clearlinux/packages/libblockdev/libblockdev-v2.26.tar.gz
 Summary  : A library with utility functions used by the libblockdev library
 Group    : Development/Tools
 License  : LGPL-2.1
-Requires: libblockdev-bin = %{version}-%{release}
-Requires: libblockdev-data = %{version}-%{release}
-Requires: libblockdev-lib = %{version}-%{release}
-Requires: libblockdev-python = %{version}-%{release}
-Requires: libblockdev-python3 = %{version}-%{release}
+BuildRequires : LVM2-dev
+BuildRequires : PyYAML
+BuildRequires : acl
+BuildRequires : acl-dev
+BuildRequires : acl-staticdev
+BuildRequires : attr
+BuildRequires : attr-dev
 BuildRequires : autoconf
 BuildRequires : autoconf-archive
 BuildRequires : autoconf-archive-dev
@@ -24,114 +26,105 @@ BuildRequires : autogen-dev
 BuildRequires : automake
 BuildRequires : automake-dev
 BuildRequires : buildreq-configure
+BuildRequires : bzip2-dev
+BuildRequires : dbus
+BuildRequires : dbus-broker
+BuildRequires : dbus-dev
+BuildRequires : dbus-glib
+BuildRequires : dbus-glib-dev
+BuildRequires : dbus-python
 BuildRequires : docbook-xml
+BuildRequires : expat
+BuildRequires : expat-dev
+BuildRequires : expat-staticdev
+BuildRequires : gettext
+BuildRequires : gettext-dev
+BuildRequires : glib
 BuildRequires : glib-dev
 BuildRequires : glibc-bin
+BuildRequires : gnome-common-dev
 BuildRequires : gobject-introspection-dev
 BuildRequires : gtk-doc
+BuildRequires : gtk-doc-dev
 BuildRequires : keyutils
 BuildRequires : keyutils-dev
+BuildRequires : libatasmart
+BuildRequires : libbytesize
+BuildRequires : libcap-dev
+BuildRequires : libcap-staticdev
+BuildRequires : libconfig-dev
+BuildRequires : libgcrypt-dev
+BuildRequires : libgcrypt-staticdev
+BuildRequires : libgudev
+BuildRequires : libgudev-dev
+BuildRequires : libiscsi
+BuildRequires : libiscsi-dev
+BuildRequires : libstoragemgmt
+BuildRequires : libstoragemgmt-dev
 BuildRequires : libtool-dev
+BuildRequires : libunistring
+BuildRequires : libunistring-dev
+BuildRequires : libxml2-dev
+BuildRequires : libxslt
+BuildRequires : libxslt-bin
+BuildRequires : libxslt-dev
+BuildRequires : lz4-dev
+BuildRequires : lz4-staticdev
 BuildRequires : m4
+BuildRequires : ncurses-dev
 BuildRequires : nss-dev
+BuildRequires : perl(XML::Parser)
 BuildRequires : pkg-config
 BuildRequires : pkgconfig(blkid)
 BuildRequires : pkgconfig(bytesize)
 BuildRequires : pkgconfig(devmapper)
 BuildRequires : pkgconfig(fdisk)
 BuildRequires : pkgconfig(gio-2.0)
+BuildRequires : pkgconfig(gio-unix-2.0)
 BuildRequires : pkgconfig(glib-2.0)
+BuildRequires : pkgconfig(gmodule-2.0)
 BuildRequires : pkgconfig(gobject-2.0)
+BuildRequires : pkgconfig(gudev-1.0)
+BuildRequires : pkgconfig(libatasmart)
+BuildRequires : pkgconfig(libconfig)
 BuildRequires : pkgconfig(libcryptsetup)
 BuildRequires : pkgconfig(libkmod)
 BuildRequires : pkgconfig(libndctl)
 BuildRequires : pkgconfig(libparted)
+BuildRequires : pkgconfig(libsystemd)
 BuildRequires : pkgconfig(libudev)
 BuildRequires : pkgconfig(mount)
+BuildRequires : pkgconfig(polkit-agent-1)
+BuildRequires : pkgconfig(polkit-gobject-1)
+BuildRequires : pkgconfig(systemd)
 BuildRequires : pkgconfig(uuid)
 BuildRequires : pkgconfig(yaml-0.1)
+BuildRequires : pygobject
+BuildRequires : pygobject-dev
+BuildRequires : python-dbusmock
+BuildRequires : python-systemd
 BuildRequires : python3
 BuildRequires : python3-dev
+BuildRequires : systemd
+BuildRequires : systemd-dev
 BuildRequires : volume_key-dev
+BuildRequires : xdg-dbus-proxy
+BuildRequires : xz-dev
+BuildRequires : zlib-dev
+BuildRequires : zlib-staticdev
+BuildRequires : zstd-dev
+BuildRequires : zstd-staticdev
 # Suppress stripping binaries
 %define __strip /bin/true
 %define debug_package %{nil}
-Patch1: 0001-g_spawn_check_exit_status-glib-fix.patch
 
 %description
 ### CI status
 <img alt="CI status" src="https://fedorapeople.org/groups/storage_apis/statuses/libblockdev-master.svg" width="100%" height="350ex" />
 
-%package bin
-Summary: bin components for the libblockdev package.
-Group: Binaries
-Requires: libblockdev-data = %{version}-%{release}
-
-%description bin
-bin components for the libblockdev package.
-
-
-%package data
-Summary: data components for the libblockdev package.
-Group: Data
-
-%description data
-data components for the libblockdev package.
-
-
-%package dev
-Summary: dev components for the libblockdev package.
-Group: Development
-Requires: libblockdev-lib = %{version}-%{release}
-Requires: libblockdev-bin = %{version}-%{release}
-Requires: libblockdev-data = %{version}-%{release}
-Provides: libblockdev-devel = %{version}-%{release}
-Requires: libblockdev = %{version}-%{release}
-
-%description dev
-dev components for the libblockdev package.
-
-
-%package lib
-Summary: lib components for the libblockdev package.
-Group: Libraries
-Requires: libblockdev-data = %{version}-%{release}
-
-%description lib
-lib components for the libblockdev package.
-
-
-%package python
-Summary: python components for the libblockdev package.
-Group: Default
-Requires: libblockdev-python3 = %{version}-%{release}
-
-%description python
-python components for the libblockdev package.
-
-
-%package python3
-Summary: python3 components for the libblockdev package.
-Group: Default
-Requires: python3-core
-
-%description python3
-python3 components for the libblockdev package.
-
-
-%package staticdev
-Summary: staticdev components for the libblockdev package.
-Group: Default
-Requires: libblockdev-dev = %{version}-%{release}
-
-%description staticdev
-staticdev components for the libblockdev package.
-
-
 %prep
 %setup -q -n libblockdev
 cd %{_builddir}/libblockdev
-%patch1 -p1
 
 %build
 unset http_proxy
@@ -139,23 +132,26 @@ unset https_proxy
 unset no_proxy
 export SSL_CERT_FILE=/var/cache/ca-certs/anchors/ca-certificates.crt
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1628701493
+export SOURCE_DATE_EPOCH=1639479936
 export GCC_IGNORE_WERROR=1
 ## altflags1 content
-export CFLAGS="-g3 -ggdb -O3 --param=lto-max-streaming-parallelism=16 -march=native -mtune=native -fgraphite-identity -Wall -Wl,--as-needed -Wl,--build-id=sha1 -Wl,--enable-new-dtags -Wl,--hash-style=gnu -Wl,-O2 -Wl,-z,now,-z,relro,-z,max-page-size=0x1000,-z,separate-code -Wno-error -mprefer-vector-width=256 -falign-functions=32 -flimit-function-alignment -fasynchronous-unwind-tables -fdevirtualize-at-ltrans -floop-nest-optimize -floop-block -fno-math-errno -fno-semantic-interposition -Wl,-Bsymbolic-functions -fno-stack-protector -fno-trapping-math -ftree-loop-distribute-patterns -ftree-loop-vectorize -ftree-slp-vectorize -ftree-vectorize -fuse-ld=bfd -fuse-linker-plugin -malign-data=cacheline -feliminate-unused-debug-types -fipa-pta -flto=16 -fno-plt -mtls-dialect=gnu2 -Wl,-sort-common -Wno-error -Wp,-D_REENTRANT -pipe -ffat-lto-objects -fPIC -fomit-frame-pointer -fexceptions -static-libstdc++ -static-libgcc -Wl,--build-id=sha1"
-## -fno-tree-vectorize: disable -ftree-vectorize thus disable -ftree-loop-vectorize and -ftree-slp-vectorize
+## altflags1
+unset ASFLAGS
+export CFLAGS="-g3 -ggdb -O3 --param=lto-max-streaming-parallelism=16 -march=native -mtune=native -fgraphite-identity -Wall -Wl,--as-needed -Wl,--build-id=sha1 -Wl,--enable-new-dtags -Wl,--hash-style=gnu -Wl,-O2 -Wl,-z,now,-z,relro,-z,max-page-size=0x1000,-z,separate-code -Wno-error -mprefer-vector-width=256 -falign-functions=32 -flimit-function-alignment -fasynchronous-unwind-tables -fdevirtualize-at-ltrans -floop-nest-optimize -floop-block -fno-math-errno -fno-semantic-interposition -Wl,-Bsymbolic-functions -fno-stack-protector -fno-trapping-math -ftree-loop-distribute-patterns -ftree-loop-vectorize -ftree-slp-vectorize -ftree-vectorize -fuse-ld=bfd -fuse-linker-plugin -malign-data=cacheline -feliminate-unused-debug-types -fipa-pta -flto=auto -fno-plt -mtls-dialect=gnu2 -Wl,-sort-common -Wno-error -Wp,-D_REENTRANT -pipe -ffat-lto-objects -fPIC -fomit-frame-pointer -fexceptions -static-libstdc++ -static-libgcc -Wl,--build-id=sha1"
+export ASMFLAGS="-g3 -ggdb -O3 --param=lto-max-streaming-parallelism=16 -march=native -mtune=native -fgraphite-identity -Wall -Wl,--as-needed -Wl,--build-id=sha1 -Wl,--enable-new-dtags -Wl,--hash-style=gnu -Wl,-O2 -Wl,-z,now,-z,relro,-z,max-page-size=0x1000,-z,separate-code -Wno-error -mprefer-vector-width=256 -falign-functions=32 -flimit-function-alignment -fasynchronous-unwind-tables -fdevirtualize-at-ltrans -floop-nest-optimize -floop-block -fno-math-errno -fno-semantic-interposition -Wl,-Bsymbolic-functions -fno-stack-protector -fno-trapping-math -ftree-loop-distribute-patterns -ftree-loop-vectorize -ftree-slp-vectorize -ftree-vectorize -fuse-ld=bfd -fuse-linker-plugin -malign-data=cacheline -feliminate-unused-debug-types -fipa-pta -flto=auto -fno-plt -mtls-dialect=gnu2 -Wl,-sort-common -Wno-error -Wp,-D_REENTRANT -pipe -ffat-lto-objects -fPIC -fomit-frame-pointer -fexceptions -static-libstdc++ -static-libgcc -Wl,--build-id=sha1"
+## -fno-tree-vectorize: disable -ftree-vectorize thus disable -ftree-loop-vectorize and -ftree-slp-vectorize -fopt-info-vec
 ## -Ofast -ffast-math
 ## -funroll-loops maybe dangerous
 ## -Wl,-z,max-page-size=0x1000
 ## -pthread -lpthread
 ## -Wl,-Bsymbolic-functions
-export CXXFLAGS="-g3 -ggdb -O3 --param=lto-max-streaming-parallelism=16 -march=native -mtune=native -fgraphite-identity -Wall -Wl,--as-needed -Wl,--build-id=sha1 -Wl,--enable-new-dtags -Wl,--hash-style=gnu -Wl,-O2 -Wl,-z,now,-z,relro,-z,max-page-size=0x1000,-z,separate-code -Wno-error -mprefer-vector-width=256 -falign-functions=32 -flimit-function-alignment -fasynchronous-unwind-tables -fdevirtualize-at-ltrans -floop-nest-optimize -floop-block -fno-math-errno -fno-semantic-interposition -Wl,-Bsymbolic-functions -fno-stack-protector -fno-trapping-math -ftree-loop-distribute-patterns -ftree-loop-vectorize -ftree-slp-vectorize -ftree-vectorize -fuse-ld=bfd -fuse-linker-plugin -malign-data=cacheline -feliminate-unused-debug-types -fipa-pta -flto=16 -fno-plt -mtls-dialect=gnu2 -Wl,-sort-common -Wno-error -Wp,-D_REENTRANT -fvisibility-inlines-hidden -pipe -ffat-lto-objects -fPIC -fomit-frame-pointer -fexceptions -static-libstdc++ -static-libgcc -Wl,--build-id=sha1"
+export CXXFLAGS="-g3 -ggdb -O3 --param=lto-max-streaming-parallelism=16 -march=native -mtune=native -fgraphite-identity -Wall -Wl,--as-needed -Wl,--build-id=sha1 -Wl,--enable-new-dtags -Wl,--hash-style=gnu -Wl,-O2 -Wl,-z,now,-z,relro,-z,max-page-size=0x1000,-z,separate-code -Wno-error -mprefer-vector-width=256 -falign-functions=32 -flimit-function-alignment -fasynchronous-unwind-tables -fdevirtualize-at-ltrans -floop-nest-optimize -floop-block -fno-math-errno -fno-semantic-interposition -Wl,-Bsymbolic-functions -fno-stack-protector -fno-trapping-math -ftree-loop-distribute-patterns -ftree-loop-vectorize -ftree-slp-vectorize -ftree-vectorize -fuse-ld=bfd -fuse-linker-plugin -malign-data=cacheline -feliminate-unused-debug-types -fipa-pta -flto=auto -fno-plt -mtls-dialect=gnu2 -Wl,-sort-common -Wno-error -Wp,-D_REENTRANT -fvisibility-inlines-hidden -pipe -ffat-lto-objects -fPIC -fomit-frame-pointer -fexceptions -static-libstdc++ -static-libgcc -Wl,--build-id=sha1"
 #
-export FCFLAGS="-g3 -ggdb -O3 --param=lto-max-streaming-parallelism=16 -march=native -mtune=native -fgraphite-identity -Wall -Wl,--as-needed -Wl,--build-id=sha1 -Wl,--enable-new-dtags -Wl,--hash-style=gnu -Wl,-O2 -Wl,-z,now,-z,relro,-z,max-page-size=0x1000,-z,separate-code -Wno-error -mprefer-vector-width=256 -falign-functions=32 -flimit-function-alignment -fasynchronous-unwind-tables -fdevirtualize-at-ltrans -floop-nest-optimize -floop-block -fno-math-errno -fno-semantic-interposition -Wl,-Bsymbolic-functions -fno-stack-protector -fno-trapping-math -ftree-loop-distribute-patterns -ftree-loop-vectorize -ftree-slp-vectorize -ftree-vectorize -fuse-ld=bfd -fuse-linker-plugin -malign-data=cacheline -feliminate-unused-debug-types -fipa-pta -flto=16 -fno-plt -mtls-dialect=gnu2 -Wl,-sort-common -Wno-error -Wp,-D_REENTRANT -pipe -ffat-lto-objects -fPIC -fomit-frame-pointer -fexceptions -static-libstdc++ -static-libgcc -Wl,--build-id=sha1"
-export FFLAGS="-g3 -ggdb -O3 --param=lto-max-streaming-parallelism=16 -march=native -mtune=native -fgraphite-identity -Wall -Wl,--as-needed -Wl,--build-id=sha1 -Wl,--enable-new-dtags -Wl,--hash-style=gnu -Wl,-O2 -Wl,-z,now,-z,relro,-z,max-page-size=0x1000,-z,separate-code -Wno-error -mprefer-vector-width=256 -falign-functions=32 -flimit-function-alignment -fasynchronous-unwind-tables -fdevirtualize-at-ltrans -floop-nest-optimize -floop-block -fno-math-errno -fno-semantic-interposition -Wl,-Bsymbolic-functions -fno-stack-protector -fno-trapping-math -ftree-loop-distribute-patterns -ftree-loop-vectorize -ftree-slp-vectorize -ftree-vectorize -fuse-ld=bfd -fuse-linker-plugin -malign-data=cacheline -feliminate-unused-debug-types -fipa-pta -flto=16 -fno-plt -mtls-dialect=gnu2 -Wl,-sort-common -Wno-error -Wp,-D_REENTRANT -pipe -ffat-lto-objects -fPIC -fomit-frame-pointer -fexceptions -static-libstdc++ -static-libgcc -Wl,--build-id=sha1"
-export CFFLAGS="-g3 -ggdb -O3 --param=lto-max-streaming-parallelism=16 -march=native -mtune=native -fgraphite-identity -Wall -Wl,--as-needed -Wl,--build-id=sha1 -Wl,--enable-new-dtags -Wl,--hash-style=gnu -Wl,-O2 -Wl,-z,now,-z,relro,-z,max-page-size=0x1000,-z,separate-code -Wno-error -mprefer-vector-width=256 -falign-functions=32 -flimit-function-alignment -fasynchronous-unwind-tables -fdevirtualize-at-ltrans -floop-nest-optimize -floop-block -fno-math-errno -fno-semantic-interposition -Wl,-Bsymbolic-functions -fno-stack-protector -fno-trapping-math -ftree-loop-distribute-patterns -ftree-loop-vectorize -ftree-slp-vectorize -ftree-vectorize -fuse-ld=bfd -fuse-linker-plugin -malign-data=cacheline -feliminate-unused-debug-types -fipa-pta -flto=16 -fno-plt -mtls-dialect=gnu2 -Wl,-sort-common -Wno-error -Wp,-D_REENTRANT -pipe -ffat-lto-objects -fPIC -fomit-frame-pointer -fexceptions -static-libstdc++ -static-libgcc -Wl,--build-id=sha1"
+export FCFLAGS="-g3 -ggdb -O3 --param=lto-max-streaming-parallelism=16 -march=native -mtune=native -fgraphite-identity -Wall -Wl,--as-needed -Wl,--build-id=sha1 -Wl,--enable-new-dtags -Wl,--hash-style=gnu -Wl,-O2 -Wl,-z,now,-z,relro,-z,max-page-size=0x1000,-z,separate-code -Wno-error -mprefer-vector-width=256 -falign-functions=32 -flimit-function-alignment -fasynchronous-unwind-tables -fdevirtualize-at-ltrans -floop-nest-optimize -floop-block -fno-math-errno -fno-semantic-interposition -Wl,-Bsymbolic-functions -fno-stack-protector -fno-trapping-math -ftree-loop-distribute-patterns -ftree-loop-vectorize -ftree-slp-vectorize -ftree-vectorize -fuse-ld=bfd -fuse-linker-plugin -malign-data=cacheline -feliminate-unused-debug-types -fipa-pta -flto=auto -fno-plt -mtls-dialect=gnu2 -Wl,-sort-common -Wno-error -Wp,-D_REENTRANT -pipe -ffat-lto-objects -fPIC -fomit-frame-pointer -fexceptions -static-libstdc++ -static-libgcc -Wl,--build-id=sha1"
+export FFLAGS="-g3 -ggdb -O3 --param=lto-max-streaming-parallelism=16 -march=native -mtune=native -fgraphite-identity -Wall -Wl,--as-needed -Wl,--build-id=sha1 -Wl,--enable-new-dtags -Wl,--hash-style=gnu -Wl,-O2 -Wl,-z,now,-z,relro,-z,max-page-size=0x1000,-z,separate-code -Wno-error -mprefer-vector-width=256 -falign-functions=32 -flimit-function-alignment -fasynchronous-unwind-tables -fdevirtualize-at-ltrans -floop-nest-optimize -floop-block -fno-math-errno -fno-semantic-interposition -Wl,-Bsymbolic-functions -fno-stack-protector -fno-trapping-math -ftree-loop-distribute-patterns -ftree-loop-vectorize -ftree-slp-vectorize -ftree-vectorize -fuse-ld=bfd -fuse-linker-plugin -malign-data=cacheline -feliminate-unused-debug-types -fipa-pta -flto=auto -fno-plt -mtls-dialect=gnu2 -Wl,-sort-common -Wno-error -Wp,-D_REENTRANT -pipe -ffat-lto-objects -fPIC -fomit-frame-pointer -fexceptions -static-libstdc++ -static-libgcc -Wl,--build-id=sha1"
+export CFFLAGS="-g3 -ggdb -O3 --param=lto-max-streaming-parallelism=16 -march=native -mtune=native -fgraphite-identity -Wall -Wl,--as-needed -Wl,--build-id=sha1 -Wl,--enable-new-dtags -Wl,--hash-style=gnu -Wl,-O2 -Wl,-z,now,-z,relro,-z,max-page-size=0x1000,-z,separate-code -Wno-error -mprefer-vector-width=256 -falign-functions=32 -flimit-function-alignment -fasynchronous-unwind-tables -fdevirtualize-at-ltrans -floop-nest-optimize -floop-block -fno-math-errno -fno-semantic-interposition -Wl,-Bsymbolic-functions -fno-stack-protector -fno-trapping-math -ftree-loop-distribute-patterns -ftree-loop-vectorize -ftree-slp-vectorize -ftree-vectorize -fuse-ld=bfd -fuse-linker-plugin -malign-data=cacheline -feliminate-unused-debug-types -fipa-pta -flto=auto -fno-plt -mtls-dialect=gnu2 -Wl,-sort-common -Wno-error -Wp,-D_REENTRANT -pipe -ffat-lto-objects -fPIC -fomit-frame-pointer -fexceptions -static-libstdc++ -static-libgcc -Wl,--build-id=sha1"
 #
-export LDFLAGS="-g3 -ggdb -O3 --param=lto-max-streaming-parallelism=16 -march=native -mtune=native -fgraphite-identity -Wall -Wl,--as-needed -Wl,--build-id=sha1 -Wl,--enable-new-dtags -Wl,--hash-style=gnu -Wl,-O2 -Wl,-z,now,-z,relro,-z,max-page-size=0x1000,-z,separate-code -Wno-error -mprefer-vector-width=256 -falign-functions=32 -flimit-function-alignment -fasynchronous-unwind-tables -fdevirtualize-at-ltrans -floop-nest-optimize -floop-block -fno-math-errno -fno-semantic-interposition -Wl,-Bsymbolic-functions -fno-stack-protector -fno-trapping-math -ftree-loop-distribute-patterns -ftree-loop-vectorize -ftree-slp-vectorize -ftree-vectorize -fuse-ld=bfd -fuse-linker-plugin -malign-data=cacheline -feliminate-unused-debug-types -fipa-pta -flto=16 -fno-plt -mtls-dialect=gnu2 -Wl,-sort-common -Wno-error -Wp,-D_REENTRANT -pipe -ffat-lto-objects -fPIC -fomit-frame-pointer -static-libstdc++ -static-libgcc -Wl,--build-id=sha1"
+export LDFLAGS="-g3 -ggdb -O3 --param=lto-max-streaming-parallelism=16 -march=native -mtune=native -fgraphite-identity -Wall -Wl,--as-needed -Wl,--build-id=sha1 -Wl,--enable-new-dtags -Wl,--hash-style=gnu -Wl,-O2 -Wl,-z,now,-z,relro,-z,max-page-size=0x1000,-z,separate-code -Wno-error -mprefer-vector-width=256 -falign-functions=32 -flimit-function-alignment -fasynchronous-unwind-tables -fdevirtualize-at-ltrans -floop-nest-optimize -floop-block -fno-math-errno -fno-semantic-interposition -Wl,-Bsymbolic-functions -fno-stack-protector -fno-trapping-math -ftree-loop-distribute-patterns -ftree-loop-vectorize -ftree-slp-vectorize -ftree-vectorize -fuse-ld=bfd -fuse-linker-plugin -malign-data=cacheline -feliminate-unused-debug-types -fipa-pta -flto=auto -fno-plt -mtls-dialect=gnu2 -Wl,-sort-common -Wno-error -Wp,-D_REENTRANT -pipe -ffat-lto-objects -fPIC -fomit-frame-pointer -static-libstdc++ -static-libgcc -Wl,--build-id=sha1"
 #
 export AR=/usr/bin/gcc-ar
 export RANLIB=/usr/bin/gcc-ranlib
@@ -180,18 +176,20 @@ export CCACHE_BASEDIR=/builddir/build/BUILD
 #export CCACHE_DEBUG=true
 #export CCACHE_NODIRECT=true
 #
-export LD_LIBRARY_PATH="/usr/nvidia/lib64:/usr/nvidia/lib64/vdpau:/usr/nvidia/lib64/xorg/modules/drivers:/usr/nvidia/lib64/xorg/modules/extensions:/usr/local/cuda/lib64:/usr/lib64/haswell:/usr/lib64/dri:/usr/lib64/chromium:/usr/lib64:/usr/lib64/pulseaudio:/usr/lib64/alsa-lib:/usr/lib64/gstreamer-1.0:/usr/lib64/pipewire-0.3:/usr/lib64/spa-0.2:/usr/lib:/aot/intel/oneapi/compiler/latest/linux/compiler/lib/intel64_lin:/aot/intel/oneapi/compiler/latest/linux/lib:/aot/intel/oneapi/mkl/latest/lib/intel64:/aot/intel/oneapi/tbb/latest/lib/intel64/gcc4.8:/usr/share:/usr/lib64/wine:/usr/nvidia/lib32:/usr/nvidia/lib32/vdpau:/usr/lib32:/usr/lib32/wine"
+export PKG_CONFIG_PATH="/usr/lib64/pkgconfig:/usr/share/pkgconfig"
 #
-export LIBRARY_PATH="/usr/nvidia/lib64:/usr/nvidia/lib64/vdpau:/usr/nvidia/lib64/xorg/modules/drivers:/usr/nvidia/lib64/xorg/modules/extensions:/usr/local/cuda/lib64:/usr/lib64/haswell:/usr/lib64/dri:/usr/lib64/chromium:/usr/lib64:/usr/lib64/pulseaudio:/usr/lib64/alsa-lib:/usr/lib64/gstreamer-1.0:/usr/lib64/pipewire-0.3:/usr/lib64/spa-0.2:/usr/lib:/aot/intel/oneapi/compiler/latest/linux/compiler/lib/intel64_lin:/aot/intel/oneapi/compiler/latest/linux/lib:/aot/intel/oneapi/mkl/latest/lib/intel64:/aot/intel/oneapi/tbb/latest/lib/intel64/gcc4.8:/usr/share:/usr/lib64/wine:/usr/nvidia/lib32:/usr/nvidia/lib32/vdpau:/usr/lib32:/usr/lib32/wine"
+export LD_LIBRARY_PATH="/usr/nvidia/lib64:/usr/nvidia/lib64/vdpau:/usr/nvidia/lib64/xorg/modules/drivers:/usr/nvidia/lib64/xorg/modules/extensions:/usr/local/cuda/lib64:/usr/lib64/haswell:/usr/lib64/haswell/pulseaudio:/usr/lib64/haswell/alsa-lib:/usr/lib64/haswell/gstreamer-1.0:/usr/lib64/haswell/pipewire-0.3:/usr/lib64/haswell/spa-0.2:/usr/lib64/dri:/usr/lib64/chromium:/usr/lib64:/usr/lib64/pulseaudio:/usr/lib64/alsa-lib:/usr/lib64/gstreamer-1.0:/usr/lib64/pipewire-0.3:/usr/lib64/spa-0.2:/usr/lib:/aot/intel/oneapi/compiler/latest/linux/compiler/lib/intel64_lin:/aot/intel/oneapi/compiler/latest/linux/lib:/aot/intel/oneapi/mkl/latest/lib/intel64:/aot/intel/oneapi/tbb/latest/lib/intel64/gcc4.8:/usr/share:/usr/lib64/wine:/usr/nvidia/lib32:/usr/nvidia/lib32/vdpau:/usr/lib32:/usr/lib32/wine"
+#
+export LIBRARY_PATH="/usr/nvidia/lib64:/usr/nvidia/lib64/vdpau:/usr/nvidia/lib64/xorg/modules/drivers:/usr/nvidia/lib64/xorg/modules/extensions:/usr/local/cuda/lib64:/usr/lib64/haswell:/usr/lib64/haswell/pulseaudio:/usr/lib64/haswell/alsa-lib:/usr/lib64/haswell/gstreamer-1.0:/usr/lib64/haswell/pipewire-0.3:/usr/lib64/haswell/spa-0.2:/usr/lib64/dri:/usr/lib64/chromium:/usr/lib64:/usr/lib64/pulseaudio:/usr/lib64/alsa-lib:/usr/lib64/gstreamer-1.0:/usr/lib64/pipewire-0.3:/usr/lib64/spa-0.2:/usr/lib:/aot/intel/oneapi/compiler/latest/linux/compiler/lib/intel64_lin:/aot/intel/oneapi/compiler/latest/linux/lib:/aot/intel/oneapi/mkl/latest/lib/intel64:/aot/intel/oneapi/tbb/latest/lib/intel64/gcc4.8:/usr/share:/usr/lib64/wine:/usr/nvidia/lib32:/usr/nvidia/lib32/vdpau:/usr/lib32:/usr/lib32/wine"
 #
 export PATH="/usr/lib64/ccache/bin:/usr/local/cuda/bin:/usr/nvidia/bin:/usr/bin/haswell:/usr/bin:/usr/sbin"
 #
 export CPATH="/usr/local/cuda/include"
 #
 export DISPLAY=:0
-export __GL_SYNC_TO_VBLANK=0
-export __GL_SYNC_DISPLAY_DEVICE=DFP-1
-export VDPAU_NVIDIA_SYNC_DISPLAY_DEVICE=DFP-1
+export __GL_SYNC_TO_VBLANK=1
+export __GL_SYNC_DISPLAY_DEVICE=HDMI-0
+export VDPAU_NVIDIA_SYNC_DISPLAY_DEVICE=HDMI-0
 export LANG=en_US.UTF-8
 export XDG_CONFIG_DIRS=/usr/share/xdg:/etc/xdg
 export XDG_SEAT=seat0
@@ -218,136 +216,17 @@ sd -r 'git describe' 'git describe --abbrev=0' .
 --enable-static \
 --with-python3=yes \
 --with-dmraid=no \
---with-gtk-doc=no
+--with-gtk-doc=no \
+--with-tools=yes \
+--with-bcache=yes \
+--disable-tests
 make  %{?_smp_mflags}    V=1 VERBOSE=1
 
 
 %install
-export SOURCE_DATE_EPOCH=1628701493
+export SOURCE_DATE_EPOCH=1639479936
 rm -rf %{buildroot}
 %make_install
 
 %files
 %defattr(-,root,root,-)
-
-%files bin
-%defattr(-,root,root,-)
-/usr/bin/lvm-cache-stats
-/usr/bin/vfat-resize
-
-%files data
-%defattr(-,root,root,-)
-/usr/lib64/girepository-1.0/BlockDev-2.0.typelib
-/usr/share/gir-1.0/*.gir
-
-%files dev
-%defattr(-,root,root,-)
-/usr/include/blockdev/blockdev.h
-/usr/include/blockdev/btrfs.h
-/usr/include/blockdev/crypto.h
-/usr/include/blockdev/dbus.h
-/usr/include/blockdev/dev_utils.h
-/usr/include/blockdev/dm.h
-/usr/include/blockdev/exec.h
-/usr/include/blockdev/extra_arg.h
-/usr/include/blockdev/fs.h
-/usr/include/blockdev/fs/btrfs.h
-/usr/include/blockdev/fs/exfat.h
-/usr/include/blockdev/fs/ext.h
-/usr/include/blockdev/fs/f2fs.h
-/usr/include/blockdev/fs/generic.h
-/usr/include/blockdev/fs/mount.h
-/usr/include/blockdev/fs/nilfs.h
-/usr/include/blockdev/fs/ntfs.h
-/usr/include/blockdev/fs/reiserfs.h
-/usr/include/blockdev/fs/udf.h
-/usr/include/blockdev/fs/vfat.h
-/usr/include/blockdev/fs/xfs.h
-/usr/include/blockdev/kbd.h
-/usr/include/blockdev/logging.h
-/usr/include/blockdev/loop.h
-/usr/include/blockdev/lvm.h
-/usr/include/blockdev/mdraid.h
-/usr/include/blockdev/module.h
-/usr/include/blockdev/mpath.h
-/usr/include/blockdev/nvdimm.h
-/usr/include/blockdev/part.h
-/usr/include/blockdev/plugins.h
-/usr/include/blockdev/sizes.h
-/usr/include/blockdev/swap.h
-/usr/include/blockdev/utils.h
-/usr/lib64/libbd_btrfs.so
-/usr/lib64/libbd_crypto.so
-/usr/lib64/libbd_dm.so
-/usr/lib64/libbd_fs.so
-/usr/lib64/libbd_kbd.so
-/usr/lib64/libbd_loop.so
-/usr/lib64/libbd_lvm-dbus.so
-/usr/lib64/libbd_lvm.so
-/usr/lib64/libbd_mdraid.so
-/usr/lib64/libbd_mpath.so
-/usr/lib64/libbd_nvdimm.so
-/usr/lib64/libbd_part.so
-/usr/lib64/libbd_swap.so
-/usr/lib64/libbd_utils.so
-/usr/lib64/libblockdev.so
-/usr/lib64/pkgconfig/blockdev-utils.pc
-/usr/lib64/pkgconfig/blockdev.pc
-
-%files lib
-%defattr(-,root,root,-)
-/usr/lib64/libbd_btrfs.so.2
-/usr/lib64/libbd_btrfs.so.2.0.0
-/usr/lib64/libbd_crypto.so.2
-/usr/lib64/libbd_crypto.so.2.0.0
-/usr/lib64/libbd_dm.so.2
-/usr/lib64/libbd_dm.so.2.0.0
-/usr/lib64/libbd_fs.so.2
-/usr/lib64/libbd_fs.so.2.0.0
-/usr/lib64/libbd_kbd.so.2
-/usr/lib64/libbd_kbd.so.2.0.0
-/usr/lib64/libbd_loop.so.2
-/usr/lib64/libbd_loop.so.2.0.0
-/usr/lib64/libbd_lvm-dbus.so.2
-/usr/lib64/libbd_lvm-dbus.so.2.0.0
-/usr/lib64/libbd_lvm.so.2
-/usr/lib64/libbd_lvm.so.2.0.0
-/usr/lib64/libbd_mdraid.so.2
-/usr/lib64/libbd_mdraid.so.2.0.0
-/usr/lib64/libbd_mpath.so.2
-/usr/lib64/libbd_mpath.so.2.0.0
-/usr/lib64/libbd_nvdimm.so.2
-/usr/lib64/libbd_nvdimm.so.2.0.0
-/usr/lib64/libbd_part.so.2
-/usr/lib64/libbd_part.so.2.0.0
-/usr/lib64/libbd_swap.so.2
-/usr/lib64/libbd_swap.so.2.0.0
-/usr/lib64/libbd_utils.so.2
-/usr/lib64/libbd_utils.so.2.1.0
-/usr/lib64/libblockdev.so.2
-/usr/lib64/libblockdev.so.2.0.0
-
-%files python
-%defattr(-,root,root,-)
-
-%files python3
-%defattr(-,root,root,-)
-/usr/lib/python3*/*
-
-%files staticdev
-%defattr(-,root,root,-)
-/usr/lib64/libbd_btrfs.a
-/usr/lib64/libbd_crypto.a
-/usr/lib64/libbd_dm.a
-/usr/lib64/libbd_fs.a
-/usr/lib64/libbd_kbd.a
-/usr/lib64/libbd_loop.a
-/usr/lib64/libbd_lvm-dbus.a
-/usr/lib64/libbd_lvm.a
-/usr/lib64/libbd_mdraid.a
-/usr/lib64/libbd_mpath.a
-/usr/lib64/libbd_nvdimm.a
-/usr/lib64/libbd_part.a
-/usr/lib64/libbd_swap.a
-/usr/lib64/libbd_utils.a
-/usr/lib64/libblockdev.a
