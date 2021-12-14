@@ -4,13 +4,18 @@
 #
 %define keepstatic 1
 Name     : libblockdev
-Version  : 2.26
-Release  : 505
-URL      : file:///aot/build/clearlinux/packages/libblockdev/libblockdev-v2.26.tar.gz
-Source0  : file:///aot/build/clearlinux/packages/libblockdev/libblockdev-v2.26.tar.gz
+Version  : 2.26.1
+Release  : 509
+URL      : file:///aot/build/clearlinux/packages/libblockdev/libblockdev-v2.26.1.tar.gz
+Source0  : file:///aot/build/clearlinux/packages/libblockdev/libblockdev-v2.26.1.tar.gz
 Summary  : A library with utility functions used by the libblockdev library
 Group    : Development/Tools
 License  : LGPL-2.1
+Requires: libblockdev-bin = %{version}-%{release}
+Requires: libblockdev-data = %{version}-%{release}
+Requires: libblockdev-lib = %{version}-%{release}
+Requires: libblockdev-python = %{version}-%{release}
+Requires: libblockdev-python3 = %{version}-%{release}
 BuildRequires : LVM2-dev
 BuildRequires : PyYAML
 BuildRequires : acl
@@ -78,7 +83,6 @@ BuildRequires : pkg-config
 BuildRequires : pkgconfig(blkid)
 BuildRequires : pkgconfig(bytesize)
 BuildRequires : pkgconfig(devmapper)
-BuildRequires : pkgconfig(fdisk)
 BuildRequires : pkgconfig(gio-2.0)
 BuildRequires : pkgconfig(gio-unix-2.0)
 BuildRequires : pkgconfig(glib-2.0)
@@ -122,6 +126,72 @@ BuildRequires : zstd-staticdev
 ### CI status
 <img alt="CI status" src="https://fedorapeople.org/groups/storage_apis/statuses/libblockdev-master.svg" width="100%" height="350ex" />
 
+%package bin
+Summary: bin components for the libblockdev package.
+Group: Binaries
+Requires: libblockdev-data = %{version}-%{release}
+
+%description bin
+bin components for the libblockdev package.
+
+
+%package data
+Summary: data components for the libblockdev package.
+Group: Data
+
+%description data
+data components for the libblockdev package.
+
+
+%package dev
+Summary: dev components for the libblockdev package.
+Group: Development
+Requires: libblockdev-lib = %{version}-%{release}
+Requires: libblockdev-bin = %{version}-%{release}
+Requires: libblockdev-data = %{version}-%{release}
+Provides: libblockdev-devel = %{version}-%{release}
+Requires: libblockdev = %{version}-%{release}
+
+%description dev
+dev components for the libblockdev package.
+
+
+%package lib
+Summary: lib components for the libblockdev package.
+Group: Libraries
+Requires: libblockdev-data = %{version}-%{release}
+
+%description lib
+lib components for the libblockdev package.
+
+
+%package python
+Summary: python components for the libblockdev package.
+Group: Default
+Requires: libblockdev-python3 = %{version}-%{release}
+
+%description python
+python components for the libblockdev package.
+
+
+%package python3
+Summary: python3 components for the libblockdev package.
+Group: Default
+Requires: python3-core
+
+%description python3
+python3 components for the libblockdev package.
+
+
+%package staticdev
+Summary: staticdev components for the libblockdev package.
+Group: Default
+Requires: libblockdev-dev = %{version}-%{release}
+
+%description staticdev
+staticdev components for the libblockdev package.
+
+
 %prep
 %setup -q -n libblockdev
 cd %{_builddir}/libblockdev
@@ -132,7 +202,7 @@ unset https_proxy
 unset no_proxy
 export SSL_CERT_FILE=/var/cache/ca-certs/anchors/ca-certificates.crt
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1639480312
+export SOURCE_DATE_EPOCH=1639482537
 export GCC_IGNORE_WERROR=1
 ## altflags1 content
 ## altflags1
@@ -224,9 +294,146 @@ make  %{?_smp_mflags}    V=1 VERBOSE=1
 
 
 %install
-export SOURCE_DATE_EPOCH=1639480312
+export SOURCE_DATE_EPOCH=1639482537
 rm -rf %{buildroot}
 %make_install
 
 %files
 %defattr(-,root,root,-)
+
+%files bin
+%defattr(-,root,root,-)
+/usr/bin/lvm-cache-stats
+/usr/bin/vfat-resize
+
+%files data
+%defattr(-,root,root,-)
+/usr/lib64/girepository-1.0/BlockDev-2.0.typelib
+/usr/share/gir-1.0/*.gir
+
+%files dev
+%defattr(-,root,root,-)
+/usr/include/blockdev/blockdev.h
+/usr/include/blockdev/btrfs.h
+/usr/include/blockdev/crypto.h
+/usr/include/blockdev/dbus.h
+/usr/include/blockdev/dev_utils.h
+/usr/include/blockdev/dm.h
+/usr/include/blockdev/exec.h
+/usr/include/blockdev/extra_arg.h
+/usr/include/blockdev/fs.h
+/usr/include/blockdev/fs/btrfs.h
+/usr/include/blockdev/fs/exfat.h
+/usr/include/blockdev/fs/ext.h
+/usr/include/blockdev/fs/f2fs.h
+/usr/include/blockdev/fs/generic.h
+/usr/include/blockdev/fs/mount.h
+/usr/include/blockdev/fs/nilfs.h
+/usr/include/blockdev/fs/ntfs.h
+/usr/include/blockdev/fs/reiserfs.h
+/usr/include/blockdev/fs/udf.h
+/usr/include/blockdev/fs/vfat.h
+/usr/include/blockdev/fs/xfs.h
+/usr/include/blockdev/kbd.h
+/usr/include/blockdev/logging.h
+/usr/include/blockdev/loop.h
+/usr/include/blockdev/lvm.h
+/usr/include/blockdev/mdraid.h
+/usr/include/blockdev/module.h
+/usr/include/blockdev/mpath.h
+/usr/include/blockdev/nvdimm.h
+/usr/include/blockdev/part.h
+/usr/include/blockdev/plugins.h
+/usr/include/blockdev/sizes.h
+/usr/include/blockdev/swap.h
+/usr/include/blockdev/utils.h
+/usr/lib64/libbd_btrfs.la
+/usr/lib64/libbd_btrfs.so
+/usr/lib64/libbd_crypto.la
+/usr/lib64/libbd_crypto.so
+/usr/lib64/libbd_dm.la
+/usr/lib64/libbd_dm.so
+/usr/lib64/libbd_fs.la
+/usr/lib64/libbd_fs.so
+/usr/lib64/libbd_kbd.la
+/usr/lib64/libbd_kbd.so
+/usr/lib64/libbd_loop.la
+/usr/lib64/libbd_loop.so
+/usr/lib64/libbd_lvm-dbus.la
+/usr/lib64/libbd_lvm-dbus.so
+/usr/lib64/libbd_lvm.la
+/usr/lib64/libbd_lvm.so
+/usr/lib64/libbd_mdraid.la
+/usr/lib64/libbd_mdraid.so
+/usr/lib64/libbd_mpath.la
+/usr/lib64/libbd_mpath.so
+/usr/lib64/libbd_nvdimm.la
+/usr/lib64/libbd_nvdimm.so
+/usr/lib64/libbd_part.la
+/usr/lib64/libbd_part.so
+/usr/lib64/libbd_swap.la
+/usr/lib64/libbd_swap.so
+/usr/lib64/libbd_utils.la
+/usr/lib64/libbd_utils.so
+/usr/lib64/libblockdev.la
+/usr/lib64/libblockdev.so
+/usr/lib64/pkgconfig/blockdev-utils.pc
+/usr/lib64/pkgconfig/blockdev.pc
+
+%files lib
+%defattr(-,root,root,-)
+/usr/lib64/libbd_btrfs.so.2
+/usr/lib64/libbd_btrfs.so.2.0.0
+/usr/lib64/libbd_crypto.so.2
+/usr/lib64/libbd_crypto.so.2.0.0
+/usr/lib64/libbd_dm.so.2
+/usr/lib64/libbd_dm.so.2.0.0
+/usr/lib64/libbd_fs.so.2
+/usr/lib64/libbd_fs.so.2.0.0
+/usr/lib64/libbd_kbd.so.2
+/usr/lib64/libbd_kbd.so.2.0.0
+/usr/lib64/libbd_loop.so.2
+/usr/lib64/libbd_loop.so.2.0.0
+/usr/lib64/libbd_lvm-dbus.so.2
+/usr/lib64/libbd_lvm-dbus.so.2.0.0
+/usr/lib64/libbd_lvm.so.2
+/usr/lib64/libbd_lvm.so.2.0.0
+/usr/lib64/libbd_mdraid.so.2
+/usr/lib64/libbd_mdraid.so.2.0.0
+/usr/lib64/libbd_mpath.so.2
+/usr/lib64/libbd_mpath.so.2.0.0
+/usr/lib64/libbd_nvdimm.so.2
+/usr/lib64/libbd_nvdimm.so.2.0.0
+/usr/lib64/libbd_part.so.2
+/usr/lib64/libbd_part.so.2.0.0
+/usr/lib64/libbd_swap.so.2
+/usr/lib64/libbd_swap.so.2.0.0
+/usr/lib64/libbd_utils.so.2
+/usr/lib64/libbd_utils.so.2.1.0
+/usr/lib64/libblockdev.so.2
+/usr/lib64/libblockdev.so.2.0.0
+
+%files python
+%defattr(-,root,root,-)
+
+%files python3
+%defattr(-,root,root,-)
+/usr/lib/python3*/*
+
+%files staticdev
+%defattr(-,root,root,-)
+/usr/lib64/libbd_btrfs.a
+/usr/lib64/libbd_crypto.a
+/usr/lib64/libbd_dm.a
+/usr/lib64/libbd_fs.a
+/usr/lib64/libbd_kbd.a
+/usr/lib64/libbd_loop.a
+/usr/lib64/libbd_lvm-dbus.a
+/usr/lib64/libbd_lvm.a
+/usr/lib64/libbd_mdraid.a
+/usr/lib64/libbd_mpath.a
+/usr/lib64/libbd_nvdimm.a
+/usr/lib64/libbd_part.a
+/usr/lib64/libbd_swap.a
+/usr/lib64/libbd_utils.a
+/usr/lib64/libblockdev.a
