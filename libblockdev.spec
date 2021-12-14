@@ -5,7 +5,7 @@
 %define keepstatic 1
 Name     : libblockdev
 Version  : 2.26
-Release  : 504
+Release  : 505
 URL      : file:///aot/build/clearlinux/packages/libblockdev/libblockdev-v2.26.tar.gz
 Source0  : file:///aot/build/clearlinux/packages/libblockdev/libblockdev-v2.26.tar.gz
 Summary  : A library with utility functions used by the libblockdev library
@@ -132,7 +132,7 @@ unset https_proxy
 unset no_proxy
 export SSL_CERT_FILE=/var/cache/ca-certs/anchors/ca-certificates.crt
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1639479936
+export SOURCE_DATE_EPOCH=1639480312
 export GCC_IGNORE_WERROR=1
 ## altflags1 content
 ## altflags1
@@ -224,7 +224,7 @@ make  %{?_smp_mflags}    V=1 VERBOSE=1
 
 
 %install
-export SOURCE_DATE_EPOCH=1639479936
+export SOURCE_DATE_EPOCH=1639480312
 rm -rf %{buildroot}
 %make_install
 

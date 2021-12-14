@@ -1,7 +1,11 @@
 # This file contains recursive sources that require this package
+clr-init
+gnome-control-center
+gnome-disk-utility
+gvfs
 gvfs-tests
 libblockdev-dev
-libblockdev-staticdev
+psensor
 udisks2
 udisks2-dev
 udisks2-staticdev
